@@ -34,6 +34,35 @@ AFRAME.registerSystem("game-controller", {
     this.settings = this.scene.systems["setting"].settings;
     this.gltfLoader = new GLTFLoader();
 
+    const donGeometry = new THREE.CylinderBufferGeometry(
+      1,
+      1,
+      3,
+      20,
+      1,
+      false,
+      0,
+      6
+    );
+
+    const domMaterial = new THREE.MeshBasicMaterial();
+
+    const domObject3d = new THREE.Mesh(donGeometry, domMaterial);
+    domObject3d.position.set(5, 0, 2);
+
+    this.scene.object3D.add(new THREE.Group().add(domObject3d));
+    /*
+    const kaCircle = new THREE.RingGeometry(
+      0.62,
+      1,
+      30,
+      1,
+      0,
+      6.283185307179586
+    );
+    const ka = new THREE.ExtrudeGeometry(kaCircle, { depth: 10 });
+    */
+
     // DB
     this.db = new DBManager();
     this.menu.addEventListener("componentinitialized", (evt) => {
@@ -86,8 +115,9 @@ AFRAME.registerSystem("game-controller", {
     this.audio = new AudioManager();
     this.menu.addEventListener("songSelected", async () => {
       if (this.gameState === GameState.MENU) {
-        let audioSrc = this.menu.components["menu"].getSelectedBeatmapSet()
-          .beatmapInfo.audioSrc;
+        let audioSrc =
+          this.menu.components["menu"].getSelectedBeatmapSet().beatmapInfo
+            .audioSrc;
         if (!isNaN(audioSrc)) {
           if (this.currentAudioObjectUrl) {
             URL.revokeObjectURL(this.currentAudioObjectUrl);
@@ -681,7 +711,8 @@ AFRAME.registerSystem("game-controller", {
     this.animationMixers = [];
 
     if (this.defaultSkysphereMaterial) {
-      this.skysphere.object3D.children[0].material = this.defaultSkysphereMaterial;
+      this.skysphere.object3D.children[0].material =
+        this.defaultSkysphereMaterial;
       this.defaultSkysphereMaterial = null;
       this.customSkysphereMaterial.dispose();
     }
@@ -734,7 +765,8 @@ AFRAME.registerSystem("game-controller", {
 
       this.customSkysphereMaterial = material;
 
-      this.defaultSkysphereMaterial = this.skysphere.object3D.children[0].material;
+      this.defaultSkysphereMaterial =
+        this.skysphere.object3D.children[0].material;
       this.skysphere.object3D.children[0].material = material;
     }
   },
@@ -744,9 +776,9 @@ AFRAME.registerSystem("game-controller", {
       await new Promise((resolve, reject) => {
         this.gltfLoader.load(model.file, async (gltf) => {
           if (model.vertexShader && model.fragmentShader) {
-            const fragmentShader = await fetch(
-              model.fragmentShader
-            ).then((res) => res.text());
+            const fragmentShader = await fetch(model.fragmentShader).then(
+              (res) => res.text()
+            );
             const vertexShader = await fetch(model.vertexShader).then((res) =>
               res.text()
             );
@@ -1333,9 +1365,8 @@ AFRAME.registerSystem("game-controller", {
 
       // add new notes
       const offsetTime = currentSongTime + this.noteOffset;
-      const sectionNotes = this.currentBeatmap.beatmap.sections[
-        this.currentSection
-      ].notes;
+      const sectionNotes =
+        this.currentBeatmap.beatmap.sections[this.currentSection].notes;
 
       let i = this.currentNote;
       let note = sectionNotes[i];
@@ -1514,7 +1545,8 @@ AFRAME.registerSystem("game-controller", {
                   1
                 );
               }
-              this.clickableProgressRing.material.uniforms.percent.value = activationPercent;
+              this.clickableProgressRing.material.uniforms.percent.value =
+                activationPercent;
               if (
                 (this.activeClickable.activationCount == 0 ||
                   this.activeClickable.repeatOnHold) &&
