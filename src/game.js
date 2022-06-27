@@ -10,6 +10,7 @@ import { NoteManager } from "./NoteManager";
 import BeatmapInfo from "./models/BeatmapInfo";
 import Beatmap from "./models/Beatmap";
 import BeatmapSet from "./models/BeatmapSet";
+import { createDrum } from "./objects/drum";
 
 const GameState = Object.freeze({
   PLAYING: 0,
@@ -34,34 +35,7 @@ AFRAME.registerSystem("game-controller", {
     this.settings = this.scene.systems["setting"].settings;
     this.gltfLoader = new GLTFLoader();
 
-    const donGeometry = new THREE.CylinderBufferGeometry(
-      1,
-      1,
-      3,
-      20,
-      1,
-      false,
-      0,
-      6
-    );
-
-    const domMaterial = new THREE.MeshBasicMaterial();
-
-    const domObject3d = new THREE.Mesh(donGeometry, domMaterial);
-    domObject3d.position.set(5, 0, 2);
-
-    this.scene.object3D.add(new THREE.Group().add(domObject3d));
-    /*
-    const kaCircle = new THREE.RingGeometry(
-      0.62,
-      1,
-      30,
-      1,
-      0,
-      6.283185307179586
-    );
-    const ka = new THREE.ExtrudeGeometry(kaCircle, { depth: 10 });
-    */
+    this.scene.object3D.add(createDrum());
 
     // DB
     this.db = new DBManager();
