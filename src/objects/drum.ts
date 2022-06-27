@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 /*
     const kaRing = new THREE.RingGeometry(
       0.62,
@@ -25,7 +27,7 @@ export const createDrum = () => {
   const domMaterial = new THREE.MeshBasicMaterial();
 
   const domObject3d = new THREE.Mesh(donGeometry, domMaterial);
-  domObject3d.position.set(5, 0, 2);
+  domObject3d.translateX(5);
 
   return new THREE.Group().add(domObject3d);
 };
